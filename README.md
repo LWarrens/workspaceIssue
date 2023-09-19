@@ -11,6 +11,21 @@ This presents an issue with detecting whether a workspace is open or not - which
 ## Run instructions
 Run `yarn install`, `yarn compile`, run the extension host, and open a folder to reproduce the issue where no workspacefile is present despite the workspaceFolders being populated by the open folder
 
+OR create a new extension from scratch and add this to the activate function
+
+```
+	// open a folder
+	if (vscode.workspace.workspaceFile !== undefined && vscode.workspace.workspaceFolders === undefined
+		|| vscode.workspace.workspaceFile === undefined && vscode.workspace.workspaceFolders !== undefined) {
+		vscode.window.showErrorMessage(
+			`workspaceFile and workspaceFolders are not both 'undefined when no workspace has been opened`
+			+ `\nworkspaceFile: ${JSON.stringify(vscode.workspace.workspaceFile)}`
+			+ `\nworkspaceFolders: ${JSON.stringify(vscode.workspace.workspaceFolders)}`)
+	} else {
+		vscode.window.showInformationMessage("Both workspaceFile and workspaceFolders are 'undefined when no workspace has been opened'")
+	}
+```
+
 ## Extension Settings
 
 activation event for this extension "onStartupFinished"
